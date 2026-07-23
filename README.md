@@ -96,3 +96,6 @@ In order to train a model on the PlantNet-300K dataset, run the following comman
  The `save_name_xp` option is the name of the directory where the weights of the model and the results (metrics) will be stored.
  You can check out the different options in the file `cli.py`.
 
+
+
+python main.py --lr=0.01 --batch_size=128 --mu=0.0001 --n_epochs=20 --epoch_decay 20 25 --k 1 3 5 10 --model=resnet18 --pretrained --seed=4 --image_size=256 --crop_size=224 --root="F:\plantnet_300K\images" --save_name_xp=xp3 --num_workers=3 --use_gpu=1 --pin_memory --persistent_workers

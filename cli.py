@@ -51,6 +51,10 @@ def _add_misc_parser(parser):
     group_misc.add_argument('--num_workers', type=int, default=4,
                             help='number of workers for the data loader. Default is one. You can bring it up. '
                                  'If you have memory errors go back to one')
+    group_misc.add_argument('--pin_memory', action='store_true',
+                            help='copy batches into pinned memory before moving them to the GPU')
+    group_misc.add_argument('--persistent_workers', action='store_true',
+                            help='keep DataLoader workers alive between epochs')
     group_misc.add_argument('--root', help='location of the train val and test directories')
     group_misc.add_argument('--save_name_xp', help='name of the saving file')
 

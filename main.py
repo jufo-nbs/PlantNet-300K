@@ -15,7 +15,9 @@ from cli import add_all_parsers
 def train(args):
     set_seed(args, use_gpu=torch.cuda.is_available())
     train_loader, val_loader, test_loader, dataset_attributes = get_data(args.root, args.image_size, args.crop_size,
-                                                                         args.batch_size, args.num_workers, args.pretrained)
+                                                                         args.batch_size, args.num_workers,
+                                                                         args.pretrained, args.pin_memory,
+                                                                         args.persistent_workers)
 
     model = get_model(args, n_classes=dataset_attributes['n_classes'])
     criteria = CrossEntropyLoss()

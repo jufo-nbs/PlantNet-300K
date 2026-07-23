@@ -177,7 +177,8 @@ class Plantnet(ImageFolder):
         return os.path.join(self.root, self.split)
 
 
-def get_data(root, image_size, crop_size, batch_size, num_workers, pretrained):
+def get_data(root, image_size, crop_size, batch_size, num_workers, pretrained, pin_memory=False,
+             persistent_workers=False):
 
     if pretrained:
         transform_train = transforms.Compose([transforms.Resize(size=image_size), transforms.RandomCrop(size=crop_size),
@@ -197,17 +198,23 @@ def get_data(root, image_size, crop_size, batch_size, num_workers, pretrained):
     trainset = Plantnet(root, 'train', transform=transform_train)
     train_class_to_num_instances = Counter(trainset.targets)
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size,
-                                              shuffle=True, num_workers=num_workers)
+                                              shuffle=True, num_workers=num_workers,
+                                              pin_memory=pin_memory,
+                                              persistent_workers=persistent_workers and num_workers > 0)
 
     valset = Plantnet(root, 'val', transform=transform_test)
 
     valloader = torch.utils.data.DataLoader(valset, batch_size=batch_size,
-                                            shuffle=True, num_workers=num_workers)
+                                            shuffle=True, num_workers=num_workers,
+                                            pin_memory=pin_memory,
+                                            persistent_workers=persistent_workers and num_workers > 0)
 
     testset = Plantnet(root, 'test', transform=transform_test)
     test_class_to_num_instances = Counter(testset.targets)
     testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size,
-                                             shuffle=False, num_workers=num_workers)
+                                             shuffle=False, num_workers=num_workers,
+                                             pin_memory=pin_memory,
+                                             persistent_workers=persistent_workers and num_workers > 0)
 
     val_class_to_num_instances = Counter(valset.targets)
     n_classes = len(trainset.classes)
